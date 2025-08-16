@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import './styles/globals.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from './components/layout/Navbar';
+import LandingPage from './pages/LandingPage';
+import HomePage from './pages/HomePage';
+import SignInPage from './pages/SignInPage';
 
 function App() {
+  // This would normally come from your auth context/service
+  const isAuthenticated = true;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="min-h-screen bg-black">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route 
+            path="/browse" 
+            element={isAuthenticated ? <HomePage /> : <Navigate to="/signin" />} 
+          />
+          <Route path="/signin" element={<SignInPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
